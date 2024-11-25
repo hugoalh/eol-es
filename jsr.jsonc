@@ -3,6 +3,11 @@
 	"name": "@hugoalh/eol",
 	"version": "0.1.0",
 	"exports": {
+		"./detect-fs": "./detect_fs.ts",
+		"./detect": "./detect.ts",
+		"./eol": "./eol.ts",
+		"./normalize-fs": "./normalize_fs.ts",
+		"./normalize": "./normalize.ts",
 		".": "./mod.ts"
 	},
 	"imports": {

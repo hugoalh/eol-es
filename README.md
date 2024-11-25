@@ -50,7 +50,10 @@ An ES (JavaScript & TypeScript) module to handle end of line (EOL).
 
 ### 🛡️ Runtime Permissions
 
-*This module does not request any runtime permission.*
+- File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+  - *Resources* (Optional)
+- File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+  - *Resources* (Optional)
 
 ## 🧩 APIs
 
@@ -67,8 +70,19 @@ An ES (JavaScript & TypeScript) module to handle end of line (EOL).
   function detectEOL(content: string): typeof eol | null;
   ```
 - ```ts
-  function normalizeEOL(content: string): string;
+  function detectFileEOL(filePath: string | URL): Promise<typeof eol | null>;
+  ```
+- ```ts
+  function detectFileEOLSync(filePath: string | URL): typeof eol | null;
+  ```
+- ```ts
   function normalizeEOL(eolChar: typeof eol, content: string): string;
+  ```
+- ```ts
+  function normalizeFileEOL(eolChar: typeof eol, ...filesPath: (string | URL)[]): Promise<void>;
+  ```
+- ```ts
+  function normalizeFileEOLSync(eolChar: typeof eol, ...filesPath: (string | URL)[]): void;
   ```
 
 > [!NOTE]

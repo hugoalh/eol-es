@@ -1,6 +1,7 @@
 import { assertEquals } from "STD/assert/equals";
 import {
 	detectEOL,
+	eol,
 	eolLF,
 	normalizeEOL
 } from "./mod.ts";
@@ -17,7 +18,7 @@ Deno.test("Detect 4", { permissions: "none" }, () => {
 	assertEquals(detectEOL("Deno is not Node"), null);
 });
 Deno.test("Normalize 1", { permissions: "none" }, () => {
-	assertEquals(normalizeEOL("Deno\r\nis not\r\nNode"), (Deno.build.os === "windows") ? "Deno\r\nis not\r\nNode" : "Deno\nis not\nNode");
+	assertEquals(normalizeEOL(eol, "Deno\r\nis not\r\nNode"), (Deno.build.os === "windows") ? "Deno\r\nis not\r\nNode" : "Deno\nis not\nNode");
 });
 Deno.test("Normalize 2", { permissions: "none" }, () => {
 	assertEquals(normalizeEOL(eolLF, "Deno\r\nis not\r\nNode"), "Deno\nis not\nNode");
