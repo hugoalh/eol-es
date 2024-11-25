@@ -109,7 +109,7 @@ An ES (JavaScript & TypeScript) module to handle end of line (EOL).
   //=> null
   ```
 - ```ts
-  normalizeEOL("Deno\r\nis not\r\nNode");
+  normalizeEOL(eol, "Deno\r\nis not\r\nNode");
   //=> "Deno\nis not\nNode" (POSIX/UNIX Platforms)
   //=> "Deno\r\nis not\r\nNode" (Windows Platforms)
   ```
