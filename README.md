@@ -94,9 +94,9 @@ An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
 
 **Entrypoint:** `cli.js`/`cli.ts`
 
-- Detect from input
+- Detect from argument
   ```ps1
-  eol detect {Input}
+  eol detect {Data}
   #=> crlf || lf || null
   ```
 - Detect from file
