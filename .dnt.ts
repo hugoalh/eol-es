@@ -8,12 +8,19 @@ await invokeDenoNodeJSTransformer({
 		"LICENSE.md",
 		"README.md"
 	],
-	entrypoints: configJSR.getExports(),
+	entrypoints: [
+		...configJSR.getExports(),
+		{
+			executable: true,
+			name: "eol",
+			path: "./cli.ts"
+		}
+	],
 	generateDeclarationMap: true,
 	metadata: {
 		name: configJSR.getName(),
 		version: configJSR.getVersion(),
-		description: "A module to handle end of line (EOL).",
+		description: "A CLI and module to handle end of line (EOL).",
 		keywords: [
 			"end-of-line",
 			"eol"

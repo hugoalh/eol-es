@@ -6,7 +6,7 @@
 [![JSR: @hugoalh/eol](https://img.shields.io/jsr/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/eol")](https://jsr.io/@hugoalh/eol)
 [![NPM: @hugoalh/eol](https://img.shields.io/npm/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/eol")](https://www.npmjs.com/package/@hugoalh/eol)
 
-An ES (JavaScript & TypeScript) module to handle end of line (EOL).
+An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
 
 ## 🔰 Begin
 
@@ -89,6 +89,30 @@ An ES (JavaScript & TypeScript) module to handle end of line (EOL).
 > - For the full or prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
 >   - [JSR](https://jsr.io/@hugoalh/eol)
+
+## 🧩 CLIs
+
+**Entrypoint:** `cli.js`/`cli.ts`
+
+- Detect from input
+  ```ps1
+  eol detect {Input}
+  #=> crlf || lf || null
+  ```
+- Detect from file
+  ```ps1
+  eol detect --file {FilePath}
+  #=> crlf || lf || null
+  ```
+- Detect from stdin
+  ```ps1
+  eol detect --stdin
+  #=> crlf || lf || null
+  ```
+- Normalize files with EOL character evaluated for the current platform
+  ```ps1
+  eol normalize [--file] ...{FilePath}
+  ```
 
 ## ✍️ Examples
 
