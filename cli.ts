@@ -60,7 +60,7 @@ switch (action?.toLowerCase()) {
 				}
 				data = Uint8Array.from([...data, ...value]);
 			}
-			console.log(visualizeEOL(detectEOL(new TextDecoder().decode(data))));
+			console.log(visualizeEOL(detectEOL(new TextDecoder().decode(data).replace(/\r?\n$/, ""))));
 		} else {
 			if (argsValues.length === 0) {
 				throw new SyntaxError(`Data is not defined!`);
