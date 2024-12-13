@@ -34,6 +34,7 @@
 			"**/*.json",
 			"**/*.ts",
 			"**/*.tsx",
+			"**/*.wasm",
 			"jsr.jsonc",
 			"LICENSE*.md",
 			"README*.md"
