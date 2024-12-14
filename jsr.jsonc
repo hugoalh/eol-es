@@ -4,10 +4,10 @@
 	"version": "0.2.0",
 	"exports": {
 		"./cli": "./cli.ts",
-		"./detect-fs": "./detect_fs.ts",
+		"./detect/fs": "./detect/fs.ts",
 		"./detect": "./detect.ts",
 		"./eol": "./eol.ts",
-		"./normalize-fs": "./normalize_fs.ts",
+		"./normalize/fs": "./normalize/fs.ts",
 		"./normalize": "./normalize.ts",
 		".": "./mod.ts"
 	},

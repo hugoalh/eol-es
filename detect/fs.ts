@@ -1,5 +1,5 @@
-import { detectEOL } from "./detect.ts";
-import type { eol } from "./eol.ts";
+import { detectEOL } from "../detect.ts";
+import type { eol } from "../eol.ts";
 /**
  * Detect the End Of Line (EOL) character in the file, asynchronously.
  * 

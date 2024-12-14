@@ -1,5 +1,5 @@
-import type { eol } from "./eol.ts";
-import { normalizeEOL } from "./normalize.ts";
+import type { eol } from "../eol.ts";
+import { normalizeEOL } from "../normalize.ts";
 /**
  * Normalize the End Of Line (EOL) characters in the file, asynchronously.
  * 

@@ -2,7 +2,7 @@ export { detectEOL } from "./detect.ts";
 export {
 	detectFileEOL,
 	detectFileEOLSync
-} from "./detect_fs.ts";
+} from "./detect/fs.ts";
 export {
 	eol,
 	eolCRLF,
@@ -12,4 +12,4 @@ export { normalizeEOL } from "./normalize.ts";
 export {
 	normalizeFileEOL,
 	normalizeFileEOLSync
-} from "./normalize_fs.ts";
+} from "./normalize/fs.ts";
