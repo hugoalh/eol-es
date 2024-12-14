@@ -1,4 +1,4 @@
-import { parseArgs } from "jsr:@std/cli@^1.0.6/parse-args";
+import { parseArgs } from "jsr:@std/cli@^1.0.8/parse-args";
 import { detectEOL } from "./detect.ts";
 import { detectFileEOL } from "./detect_fs.ts";
 import {
