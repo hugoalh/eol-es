@@ -1,15 +1,15 @@
-export { detectEOL } from "./detect.ts";
 export {
+	detectEOL,
 	detectFileEOL,
 	detectFileEOLSync
-} from "./detect/fs.ts";
+} from "./detect.ts";
 export {
 	eol,
 	eolCRLF,
 	eolLF
 } from "./eol.ts";
-export { normalizeEOL } from "./normalize.ts";
 export {
+	normalizeEOL,
 	normalizeFileEOL,
 	normalizeFileEOLSync
-} from "./normalize/fs.ts";
+} from "./normalize.ts";

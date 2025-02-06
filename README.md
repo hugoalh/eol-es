@@ -73,16 +73,10 @@ An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
   function detectFileEOL(filePath: string | URL): Promise<typeof eol | null>;
   ```
 - ```ts
-  function detectFileEOLSync(filePath: string | URL): typeof eol | null;
-  ```
-- ```ts
   function normalizeEOL(eolChar: typeof eol, content: string): string;
   ```
 - ```ts
   function normalizeFileEOL(eolChar: typeof eol, ...filesPath: (string | URL)[]): Promise<void>;
-  ```
-- ```ts
-  function normalizeFileEOLSync(eolChar: typeof eol, ...filesPath: (string | URL)[]): void;
   ```
 
 > [!NOTE]

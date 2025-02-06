@@ -1,12 +1,14 @@
 import { parseArgs } from "jsr:@std/cli@^1.0.8/parse-args";
-import { detectEOL } from "./detect.ts";
-import { detectFileEOL } from "./detect/fs.ts";
+import {
+	detectEOL,
+	detectFileEOL
+} from "./detect.ts";
 import {
 	eol,
 	eolCRLF,
 	eolLF
 } from "./eol.ts";
-import { normalizeFileEOL } from "./normalize/fs.ts";
+import { normalizeFileEOL } from "./normalize.ts";
 if (!import.meta.main) {
 	throw new Error(`This script is for command line usage only!`);
 }
