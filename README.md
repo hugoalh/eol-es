@@ -90,7 +90,7 @@ An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
 
 - Detect from argument
   ```ps1
-  eol detect {Data}
+  eol detect {Content}
   #=> crlf || lf || null
   ```
 - Detect from file
