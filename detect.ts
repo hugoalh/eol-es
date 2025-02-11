@@ -32,7 +32,7 @@ import {
  * ```
  */
 export function detectEOL(content: string): typeof eol | null {
-	const results: RegExpExecArray[] = Array.from(content.matchAll(_regexpEOL));
+	const results: readonly RegExpExecArray[] = Array.from(content.matchAll(_regexpEOL));
 	if (results.length === 0) {
 		return null;
 	}

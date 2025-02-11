@@ -57,10 +57,10 @@ export async function normalizeFileEOL(eolChar: typeof eol, ...filesPath: readon
  * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
  * >   - *Resources*
  * @param {typeof eol} eolChar EOL character that use to normalize the file.
- * @param {...(string | URL)} filesPath Path of the files that need to normalize the EOL characters.
+ * @param {...readonly (string | URL)} filesPath Path of the files that need to normalize the EOL characters.
  * @returns {void}
  */
-export function normalizeFileEOLSync(eolChar: typeof eol, ...filesPath: (string | URL)[]): void {
+export function normalizeFileEOLSync(eolChar: typeof eol, ...filesPath: readonly (string | URL)[]): void {
 	const fails: Error[] = [];
 	for (const filePath of filesPath) {
 		try {
