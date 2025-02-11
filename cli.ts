@@ -57,7 +57,7 @@ switch (action?.toLowerCase()) {
 			console.log(visualizeEOL(detectEOL(new TextDecoder().decode(data).replace(/\r?\n$/, ""))));
 		} else {
 			if (argsValues.length === 0) {
-				throw new SyntaxError(`Data is not defined!`);
+				throw new SyntaxError(`Content is not defined!`);
 			}
 			if (argsValues.length !== 1) {
 				throw new SyntaxError(`Too many arguments! Expect: 1; Current: ${argsValues.length}.`);
