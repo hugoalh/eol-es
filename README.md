@@ -6,7 +6,7 @@
 [![JSR: @hugoalh/eol](https://img.shields.io/jsr/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/eol")](https://jsr.io/@hugoalh/eol)
 [![NPM: @hugoalh/eol](https://img.shields.io/npm/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/eol")](https://www.npmjs.com/package/@hugoalh/eol)
 
-An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
+An ECMAScript (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
 
 ## 🔰 Begin
 
@@ -50,9 +50,9 @@ An ES (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
 
 ### 🛡️ Runtime Permissions
 
-- File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+- **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
   - *Resources* (Optional)
-- File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+- **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
   - *Resources* (Optional)
 
 ## 🧩 APIs

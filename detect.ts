@@ -1,5 +1,5 @@
 import {
-	_regexpEOL,
+	_getRegExpEOL,
 	eolCRLF,
 	eolLF,
 	type eol
@@ -32,7 +32,7 @@ import {
  * ```
  */
 export function detectEOL(content: string): typeof eol | null {
-	const results: readonly RegExpExecArray[] = Array.from(content.matchAll(_regexpEOL));
+	const results: readonly RegExpExecArray[] = Array.from(content.matchAll(_getRegExpEOL()));
 	if (results.length === 0) {
 		return null;
 	}
@@ -47,7 +47,7 @@ export function detectEOL(content: string): typeof eol | null {
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+ * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
  * >   - *Resources*
  * @param {string | URL} filePath Path of the file that need to detect the EOL character.
  * @returns {Promise<typeof eol | null>} Result of the detected EOL character, or `null` if no EOL character is detected.
@@ -62,7 +62,7 @@ export async function detectFileEOL(filePath: string | URL): Promise<typeof eol 
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+ * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
  * >   - *Resources*
  * @param {string | URL} filePath Path of the file that need to detect the EOL character.
  * @returns {typeof eol | null} Result of the detected EOL character, or `null` if no EOL character is detected.

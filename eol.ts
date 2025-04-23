@@ -10,4 +10,10 @@ export const eolLF = "\n" as const;
  * End Of Line (EOL) character evaluated for the current platform.
  */
 export const eol: typeof eolCRLF | typeof eolLF = (Deno.build.os === "windows") ? eolCRLF : eolLF;
-export const _regexpEOL = /\r?\n/g;
+export function _getRegExpEOL(): RegExp {
+	return /\r?\n/g;
+}
+/**
+ * @deprecated Replaced by function {@linkcode _getRegExpEOL}.
+ */
+export const _regexpEOL: RegExp = _getRegExpEOL();

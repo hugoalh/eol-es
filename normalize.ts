@@ -1,5 +1,5 @@
 import {
-	_regexpEOL,
+	_getRegExpEOL,
 	type eol
 } from "./eol.ts";
 /**
@@ -15,16 +15,16 @@ import {
  * ```
  */
 export function normalizeEOL(eolChar: typeof eol, content: string): string {
-	return content.replace(_regexpEOL, eolChar);
+	return content.replace(_getRegExpEOL(), eolChar);
 }
 /**
  * Normalize the End Of Line (EOL) characters in the file, asynchronously.
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+ * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
  * >   - *Resources*
- * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+ * > - **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
  * >   - *Resources*
  * @param {typeof eol} eolChar EOL character that use to normalize the file.
  * @param {...readonly (string | URL)} filesPath Path of the files that need to normalize the EOL characters.
@@ -52,9 +52,9 @@ export async function normalizeFileEOL(eolChar: typeof eol, ...filesPath: readon
  * 
  * > **🛡️ Runtime Permissions**
  * > 
- * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+ * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
  * >   - *Resources*
- * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+ * > - **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
  * >   - *Resources*
  * @param {typeof eol} eolChar EOL character that use to normalize the file.
  * @param {...readonly (string | URL)} filesPath Path of the files that need to normalize the EOL characters.
