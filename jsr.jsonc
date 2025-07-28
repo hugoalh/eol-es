@@ -1,9 +1,8 @@
 {
 	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
 	"name": "@hugoalh/eol",
-	"version": "0.3.1",
+	"version": "0.4.0",
 	"exports": {
-		"./cli": "./cli.ts",
 		"./detect": "./detect.ts",
 		"./eol": "./eol.ts",
 		"./normalize": "./normalize.ts",

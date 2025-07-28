@@ -1,12 +1,19 @@
 import {
-	_getRegExpEOL,
-	type eol
+	eolCRLF,
+	eolLF,
+	regExpEOL,
+	type EOLCharacter
 } from "./eol.ts";
+function checkSelectEOL(eol: unknown): void {
+	if (eol !== eolCRLF && eol !== eolLF) {
+		throw new SyntaxError(`\`${eol}\` is not a valid End Of Line (EOL) characters/sequence!`);
+	}
+}
 /**
- * Normalize the End Of Line (EOL) characters in the content.
- * @param {typeof eol} eolChar EOL character that use to normalize the content.
- * @param {string} content Content that need to normalize the EOL characters.
- * @returns {string} Content that normalized the EOL characters.
+ * Normalize the End Of Line (EOL) characters/sequence in the content.
+ * @param {EOLCharacter} eol EOL character/sequence that use to normalize.
+ * @param {string} content Content that need to normalize.
+ * @returns {string} Content with normalized EOL characters/sequence.
  * @example
  * ```ts
  * normalizeEOL(eolLF, "Deno\r\nis not\r\nNode");
@@ -14,66 +21,43 @@ import {
  * //=> "Deno\nis not\nNode" (Windows Platforms)
  * ```
  */
-export function normalizeEOL(eolChar: typeof eol, content: string): string {
-	return content.replace(_getRegExpEOL(), eolChar);
+export function normalizeEOL(eol: EOLCharacter, content: string): string {
+	checkSelectEOL(eol);
+	return content.replace(regExpEOL(), eol);
 }
 /**
- * Normalize the End Of Line (EOL) characters in the file, asynchronously.
- * 
- * > **🛡️ Runtime Permissions**
- * > 
- * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
- * >   - *Resources*
- * > - **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
- * >   - *Resources*
- * @param {typeof eol} eolChar EOL character that use to normalize the file.
- * @param {...readonly (string | URL)} filesPath Path of the files that need to normalize the EOL characters.
- * @returns {Promise<void>}
+ * Normalize the End Of Line (EOL) characters/sequence in the stream.
  */
-export async function normalizeFileEOL(eolChar: typeof eol, ...filesPath: readonly (string | URL)[]): Promise<void> {
-	const results: readonly PromiseSettledResult<void>[] = await Promise.allSettled(filesPath.map(async (filePath: string | URL): Promise<void> => {
-		const contentOriginal: string = await Deno.readTextFile(filePath);
-		const contentNew: string = normalizeEOL(eolChar, contentOriginal);
-		if (contentOriginal !== contentNew) {
-			await Deno.writeTextFile(filePath, contentNew, { create: false });
-		}
-	}));
-	const fails: readonly PromiseRejectedResult[] = results.filter((result: PromiseSettledResult<void>): result is PromiseRejectedResult => {
-		return (result.status === "rejected");
-	});
-	if (fails.length > 0) {
-		throw new AggregateError(fails.map((fail: PromiseRejectedResult): Error => {
-			return fail.reason as Error;
-		}), `Unable to normalize some of the files!`);
+export class EOLNormalizeStream extends TransformStream<string, string> {
+	get [Symbol.toStringTag](): string {
+		return "NormalizeEOLStream";
 	}
-}
-/**
- * Normalize the End Of Line (EOL) characters in the file, synchronously.
- * 
- * > **🛡️ Runtime Permissions**
- * > 
- * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
- * >   - *Resources*
- * > - **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
- * >   - *Resources*
- * @param {typeof eol} eolChar EOL character that use to normalize the file.
- * @param {...readonly (string | URL)} filesPath Path of the files that need to normalize the EOL characters.
- * @returns {void}
- */
-export function normalizeFileEOLSync(eolChar: typeof eol, ...filesPath: readonly (string | URL)[]): void {
-	const fails: Error[] = [];
-	for (const filePath of filesPath) {
-		try {
-			const contentOriginal: string = Deno.readTextFileSync(filePath);
-			const contentNew: string = normalizeEOL(eolChar, contentOriginal);
-			if (contentOriginal !== contentNew) {
-				Deno.writeTextFileSync(filePath, contentNew, { create: false });
+	#chunkLastEndWithCR: boolean = false;
+	#eol: EOLCharacter;
+	/**
+	 * Initialize.
+	 * @param {EOLCharacter} eol EOL character/sequence that use to normalize.
+	 */
+	constructor(eol: EOLCharacter) {
+		super({
+			transform: (chunk: string, controller: TransformStreamDefaultController<string>): void => {
+				const chunkFmt: string = `${this.#chunkLastEndWithCR ? "\r" : ""}${chunk}`.replace(regExpEOL(), this.#eol);
+				if (chunkFmt.endsWith("\r")) {
+					this.#chunkLastEndWithCR = true;
+					controller.enqueue(chunkFmt.slice(0, chunkFmt.length - 1));
+				} else {
+					this.#chunkLastEndWithCR = false;
+					controller.enqueue(chunkFmt);
+				}
+			},
+			flush: (controller: TransformStreamDefaultController<string>): void => {
+				if (this.#chunkLastEndWithCR) {
+					this.#chunkLastEndWithCR = false;
+					controller.enqueue("\r");
+				}
 			}
-		} catch (error) {
-			fails.push(error as Error);
-		}
-	}
-	if (fails.length > 0) {
-		throw new AggregateError(fails, `Unable to normalize some of the files!`);
+		});
+		checkSelectEOL(eol);
+		this.#eol = eol;
 	}
 }

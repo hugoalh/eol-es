@@ -1,14 +1,29 @@
 import { deepStrictEqual } from "node:assert";
-import { detectEOL } from "./mod.ts";
-Deno.test("1", { permissions: "none" }, () => {
-	deepStrictEqual(detectEOL("Deno\r\nis not\r\nNode"), "\r\n");
+import {
+	detectEOL,
+	detectEOLFromStream
+} from "./detect.ts";
+import {
+	eolCRLF,
+	eolCurrent,
+	eolLF
+} from "./eol.ts";
+Deno.test("Direct 1", { permissions: "none" }, () => {
+	deepStrictEqual(detectEOL("Deno\r\nis not\r\nNode"), eolCRLF);
 });
-Deno.test("2", { permissions: "none" }, () => {
-	deepStrictEqual(detectEOL("Deno\nis not\r\nNode"), "\r\n");
+Deno.test("Direct 2", { permissions: "none" }, () => {
+	deepStrictEqual(detectEOL("Deno\nis not\r\nNode"), eolCurrent);
 });
-Deno.test("3", { permissions: "none" }, () => {
-	deepStrictEqual(detectEOL("Deno\nis not\nNode"), "\n");
+Deno.test("Direct 3", { permissions: "none" }, () => {
+	deepStrictEqual(detectEOL("Deno\nis not\nNode"), eolLF);
 });
-Deno.test("4", { permissions: "none" }, () => {
+Deno.test("Direct 4", { permissions: "none" }, () => {
 	deepStrictEqual(detectEOL("Deno is not Node"), null);
+});
+Deno.test("Stream 1", { permissions: "none" }, async () => {
+	deepStrictEqual(await detectEOLFromStream(ReadableStream.from([
+		"Deno\r",
+		"\nis not",
+		"\r\nNode"
+	]).pipeThrough(new TextEncoderStream())), eolCRLF);
 });

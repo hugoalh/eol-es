@@ -1,15 +1,15 @@
 export {
 	detectEOL,
-	detectFileEOL,
-	detectFileEOLSync
+	detectEOLFromStream
 } from "./detect.ts";
 export {
-	eol,
 	eolCRLF,
-	eolLF
+	eolCurrent,
+	eolLF,
+	regExpEOL,
+	type EOLCharacter
 } from "./eol.ts";
 export {
-	normalizeEOL,
-	normalizeFileEOL,
-	normalizeFileEOLSync
+	EOLNormalizeStream,
+	normalizeEOL
 } from "./normalize.ts";

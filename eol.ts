@@ -1,19 +1,22 @@
+import { EOL } from "node:os";
 /**
- * End Of Line (EOL) character CRLF, use on the Windows platforms.
+ * End Of Line (EOL) character/sequence CRLF, use on the Windows platforms.
  */
 export const eolCRLF = "\r\n" as const;
 /**
- * End Of Line (EOL) character LF, use on the POSIX/UNIX platforms.
+ * End Of Line (EOL) character/sequence LF, use on the POSIX/UNIX platforms.
  */
 export const eolLF = "\n" as const;
+export type EOLCharacter =
+	| typeof eolCRLF
+	| typeof eolLF;
 /**
- * End Of Line (EOL) character evaluated for the current platform.
+ * End Of Line (EOL) character/sequence evaluated for the current platform.
  */
-export const eol: typeof eolCRLF | typeof eolLF = (Deno.build.os === "windows") ? eolCRLF : eolLF;
-export function _getRegExpEOL(): RegExp {
+export const eolCurrent: EOLCharacter = EOL as EOLCharacter;
+/**
+ * Return regular expression of the End Of Line (EOL) characters/sequence.
+ */
+export function regExpEOL(): RegExp {
 	return /\r?\n/g;
 }
-/**
- * @deprecated Replaced by function {@linkcode _getRegExpEOL}.
- */
-export const _regexpEOL: RegExp = _getRegExpEOL();

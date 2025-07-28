@@ -1,15 +1,28 @@
 import {
-	_getRegExpEOL,
 	eolCRLF,
+	eolCurrent,
 	eolLF,
-	type eol
+	regExpEOL,
+	type EOLCharacter
 } from "./eol.ts";
+function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLCharacter | null {
+	if (countCRLF === 0n && countLF === 0n) {
+		return null;
+	}
+	if (countCRLF > countLF) {
+		return eolCRLF;
+	}
+	if (countLF > countCRLF) {
+		return eolLF;
+	}
+	return eolCurrent;
+}
 /**
- * Detect the End Of Line (EOL) character in the content.
+ * Determine the End Of Line (EOL) character/sequence in the content.
  * 
- * If no EOL character is detected, `null` is returned.
- * @param {string} content Content that need to detect the EOL character.
- * @returns {typeof eol | null} Result of the detected EOL character, or `null` if no EOL character is detected.
+ * If no EOL character/sequence is in the content, `null` is returned.
+ * @param {string|Uint8Array} content Content that need to determine.
+ * @returns {EOLCharacter | null} Determine result.
  * @example 1
  * ```ts
  * detectEOL("Deno\r\nis not\r\nNode");
@@ -31,42 +44,49 @@ import {
  * //=> null
  * ```
  */
-export function detectEOL(content: string): typeof eol | null {
-	const results: readonly RegExpExecArray[] = Array.from(content.matchAll(_getRegExpEOL()));
-	if (results.length === 0) {
-		return null;
+export function detectEOL(content: string | Uint8Array): EOLCharacter | null {
+	const contentFmt: string = (typeof content === "string") ? content : new TextDecoder().decode(content);
+	let countCRLF: bigint = 0n;
+	let countLF: bigint = 0n;
+	for (const match of contentFmt.matchAll(regExpEOL())) {
+		const target: string = match[0];
+		if (target === eolCRLF) {
+			countCRLF += 1n;
+		} else if (target === eolLF) {
+			countLF += 1n;
+		}
 	}
-	return (results.some((result: RegExpExecArray): boolean => {
-		return (result[0] === eolCRLF);
-	}) ? eolCRLF : eolLF);
+	return detectEOLResultConclusion(countCRLF, countLF);
 }
 /**
- * Detect the End Of Line (EOL) character in the file, asynchronously.
+ * Determine the End Of Line (EOL) character/sequence in the readable stream.
  * 
- * If no EOL character is detected, `null` is returned.
- * 
- * > **🛡️ Runtime Permissions**
- * > 
- * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
- * >   - *Resources*
- * @param {string | URL} filePath Path of the file that need to detect the EOL character.
- * @returns {Promise<typeof eol | null>} Result of the detected EOL character, or `null` if no EOL character is detected.
+ * If no EOL character/sequence is in the readable stream, `null` is returned.
+ * @param {ReadableStream<Uint8Array>} stream Readable stream that need to determine.
+ * @returns {Promise<EOLCharacter | null>} Determine result.
  */
-export async function detectFileEOL(filePath: string | URL): Promise<typeof eol | null> {
-	return detectEOL(await Deno.readTextFile(filePath));
-}
-/**
- * Detect the End Of Line (EOL) character in the file, synchronously.
- * 
- * If no EOL character is detected, `null` is returned.
- * 
- * > **🛡️ Runtime Permissions**
- * > 
- * > - **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
- * >   - *Resources*
- * @param {string | URL} filePath Path of the file that need to detect the EOL character.
- * @returns {typeof eol | null} Result of the detected EOL character, or `null` if no EOL character is detected.
- */
-export function detectFileEOLSync(filePath: string | URL): typeof eol | null {
-	return detectEOL(Deno.readTextFileSync(filePath));
+export async function detectEOLFromStream(stream: ReadableStream<Uint8Array>): Promise<EOLCharacter | null> {
+	let countCRLF: bigint = 0n;
+	let countLF: bigint = 0n;
+	let bytePreviousIsCR: boolean = false;
+	for await (const chunk of stream) {
+		for (const byte of chunk) {
+			if (bytePreviousIsCR) {
+				if (byte === 10) {
+					countCRLF += 1n;
+				} else if (byte === 13) {
+					bytePreviousIsCR = true;
+				} else {
+					bytePreviousIsCR = false;
+				}
+			} else {
+				if (byte === 10) {
+					countLF += 1n;
+				} else if (byte === 13) {
+					bytePreviousIsCR = true;
+				}
+			}
+		}
+	}
+	return detectEOLResultConclusion(countCRLF, countLF);
 }

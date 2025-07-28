@@ -6,18 +6,17 @@
 [![JSR: @hugoalh/eol](https://img.shields.io/jsr/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/eol")](https://jsr.io/@hugoalh/eol)
 [![NPM: @hugoalh/eol](https://img.shields.io/npm/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/eol")](https://www.npmjs.com/package/@hugoalh/eol)
 
-An ECMAScript (JavaScript & TypeScript) CLI and module to handle end of line (EOL).
+An ECMAScript (JavaScript & TypeScript) module to handle end of line (EOL).
 
 ## 🔰 Begin
 
 ### 🎯 Targets
 
-|  | **Remote** | **JSR** | **NPM** |
-|:--|:--|:--|:--|
-| **[Bun](https://bun.sh/)** >= v1.1.0 | ❌ | ❓ | ✔️ |
-| **[Cloudflare Workers](https://workers.cloudflare.com/)** | ❌ | ❓ | ✔️ |
-| **[Deno](https://deno.land/)** >= v1.42.0 | ✔️ | ✔️ | ✔️ |
-| **[NodeJS](https://nodejs.org/)** >= v16.13.0 | ❌ | ❓ | ✔️ |
+| **Targets** | **Remote** | **JSR** | **NPM** |
+|:--|:-:|:-:|:-:|
+| **[Bun](https://bun.sh/)** >= v1.1.0 | ❌ | ✔️ | ✔️ |
+| **[Deno](https://deno.land/)** >= v2.1.0 | ✔️ | ✔️ | ✔️ |
+| **[NodeJS](https://nodejs.org/)** >= v20.9.0 | ❌ | ✔️ | ✔️ |
 
 > [!NOTE]
 > - It is possible to use this module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
@@ -50,63 +49,34 @@ An ECMAScript (JavaScript & TypeScript) CLI and module to handle end of line (EO
 
 ### 🛡️ Runtime Permissions
 
-- **File System - Read (Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`):**
-  - *Resources* (Optional)
-- **File System - Write (Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`):**
-  - *Resources* (Optional)
+*This module does not request any runtime permission.*
 
 ## 🧩 APIs
 
 - ```ts
-  const eolCRLF = "\r\n";
+  class EOLNormalizeStream extends TransformStream<string, string> {
+    constructor(eol: EOLCharacter);
+  }
   ```
 - ```ts
-  const eolLF = "\n";
+  function detectEOL(content: string | Uint8Array): EOLCharacter | null;
   ```
 - ```ts
-  const eol: typeof eolCRLF | typeof eolLF;
+  function detectEOLFromStream(stream: ReadableStream<Uint8Array>): Promise<EOLCharacter | null>;
   ```
 - ```ts
-  function detectEOL(content: string): typeof eol | null;
+  function normalizeEOL(eol: EOLCharacter, content: string): string;
   ```
 - ```ts
-  function detectFileEOL(filePath: string | URL): Promise<typeof eol | null>;
-  ```
-- ```ts
-  function normalizeEOL(eolChar: typeof eol, content: string): string;
-  ```
-- ```ts
-  function normalizeFileEOL(eolChar: typeof eol, ...filesPath: readonly (string | URL)[]): Promise<void>;
+  type EOLCharacter =
+    | typeof eolCRLF
+    | typeof eolLF;
   ```
 
 > [!NOTE]
 > - For the full or prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
 >   - [JSR](https://jsr.io/@hugoalh/eol)
-
-## 🧩 CLIs
-
-**Entrypoint:** `cli.js`/`cli.ts`
-
-- Detect from argument
-  ```ps1
-  eol detect {Content}
-  #=> crlf || lf || null
-  ```
-- Detect from file
-  ```ps1
-  eol detect --file {FilePath}
-  #=> crlf || lf || null
-  ```
-- Detect from stdin
-  ```ps1
-  eol detect --stdin
-  #=> crlf || lf || null
-  ```
-- Normalize files with EOL character evaluated for the current platform
-  ```ps1
-  eol normalize [--file] ...{FilePath}
-  ```
 
 ## ✍️ Examples
 
@@ -127,7 +97,7 @@ An ECMAScript (JavaScript & TypeScript) CLI and module to handle end of line (EO
   //=> null
   ```
 - ```ts
-  normalizeEOL(eol, "Deno\r\nis not\r\nNode");
+  normalizeEOL(eolCurrent, "Deno\r\nis not\r\nNode");
   //=> "Deno\nis not\nNode" (POSIX/UNIX Platforms)
   //=> "Deno\r\nis not\r\nNode" (Windows Platforms)
   ```
