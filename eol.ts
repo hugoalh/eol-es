@@ -1,4 +1,4 @@
-import { EOL } from "node:os";
+import { systemName } from "https://raw.githubusercontent.com/hugoalh/runtime-info-es/v0.1.0/mod.ts";
 /**
  * End Of Line (EOL) character/sequence CRLF, use on the Windows platforms.
  */
@@ -13,7 +13,7 @@ export type EOLCharacter =
 /**
  * End Of Line (EOL) character/sequence evaluated for the current platform.
  */
-export const eolCurrent: EOLCharacter = EOL as EOLCharacter;
+export const eolCurrent: EOLCharacter = (systemName === "windows") ? eolCRLF : eolLF;
 /**
  * Return regular expression of the End Of Line (EOL) characters/sequence.
  */

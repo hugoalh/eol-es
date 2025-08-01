@@ -5,6 +5,7 @@ import {
 	regExpEOL,
 	type EOLCharacter
 } from "./eol.ts";
+export type { EOLCharacter } from "./eol.ts";
 function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLCharacter | null {
 	if (countCRLF === 0n && countLF === 0n) {
 		return null;

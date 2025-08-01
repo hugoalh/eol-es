@@ -4,8 +4,12 @@ import {
 	regExpEOL,
 	type EOLCharacter
 } from "./eol.ts";
-function checkSelectEOL(eol: unknown): void {
-	if (eol !== eolCRLF && eol !== eolLF) {
+export type { EOLCharacter } from "./eol.ts";
+function assertEOL(eol: EOLCharacter): void {
+	if (!(
+		eol === eolCRLF ||
+		eol === eolLF
+	)) {
 		throw new SyntaxError(`\`${eol}\` is not a valid End Of Line (EOL) characters/sequence!`);
 	}
 }
@@ -22,7 +26,7 @@ function checkSelectEOL(eol: unknown): void {
  * ```
  */
 export function normalizeEOL(eol: EOLCharacter, content: string): string {
-	checkSelectEOL(eol);
+	assertEOL(eol);
 	return content.replace(regExpEOL(), eol);
 }
 /**
@@ -57,7 +61,7 @@ export class EOLNormalizeStream extends TransformStream<string, string> {
 				}
 			}
 		});
-		checkSelectEOL(eol);
+		assertEOL(eol);
 		this.#eol = eol;
 	}
 }
