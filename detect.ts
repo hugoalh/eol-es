@@ -22,7 +22,7 @@ function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLChara
  * Determine the End Of Line (EOL) character/sequence in the content.
  * 
  * If no EOL character/sequence is in the content, `null` is returned.
- * @param {string|Uint8Array} content Content that need to determine.
+ * @param {string | Uint8Array} content Content that need to determine.
  * @returns {EOLCharacter | null} Determine result.
  * @example 1
  * ```ts
