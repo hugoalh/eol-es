@@ -24,22 +24,22 @@ function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLChara
  * If no EOL character/sequence is in the content, `null` is returned.
  * @param {string | Uint8Array} content Content that need to determine.
  * @returns {EOLCharacter | null} Determine result.
- * @example 1
+ * @example
  * ```ts
  * detectEOL("Deno\r\nis not\r\nNode");
  * //=> "\r\n"
  * ```
- * @example 2
+ * @example
  * ```ts
  * detectEOL("Deno\nis not\r\nNode");
  * //=> "\r\n"
  * ```
- * @example 3
+ * @example
  * ```ts
  * detectEOL("Deno\nis not\nNode");
  * //=> "\n"
  * ```
- * @example 4
+ * @example
  * ```ts
  * detectEOL("Deno is not Node");
  * //=> null
