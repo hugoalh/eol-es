@@ -1,4 +1,4 @@
-import { systemName } from "https://raw.githubusercontent.com/hugoalh/runtime-info-es/v0.1.0/mod.ts";
+import { systemName } from "https://raw.githubusercontent.com/hugoalh/runtime-info-es/v0.2.0/mod.ts";
 /**
  * End Of Line (EOL) character/sequence CRLF, use on the Windows platforms.
  */
