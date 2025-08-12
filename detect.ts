@@ -2,7 +2,7 @@ import {
 	eolCRLF,
 	eolCurrent,
 	eolLF,
-	regExpEOL,
+	regexpEOL,
 	type EOLCharacter
 } from "./eol.ts";
 export type { EOLCharacter } from "./eol.ts";
@@ -49,7 +49,7 @@ export function detectEOL(content: string | Uint8Array): EOLCharacter | null {
 	const contentFmt: string = (typeof content === "string") ? content : new TextDecoder().decode(content);
 	let countCRLF: bigint = 0n;
 	let countLF: bigint = 0n;
-	for (const match of contentFmt.matchAll(regExpEOL())) {
+	for (const match of contentFmt.matchAll(regexpEOL())) {
 		const target: string = match[0];
 		if (target === eolCRLF) {
 			countCRLF += 1n;
