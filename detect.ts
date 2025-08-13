@@ -22,7 +22,7 @@ function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLChara
  * Determine the End Of Line (EOL) character/sequence in the content.
  * 
  * If no EOL character/sequence is in the content, `null` is returned.
- * @param {string | Uint8Array} content Content that need to determine.
+ * @param {string} content Content that need to determine.
  * @returns {EOLCharacter | null} Determine result.
  * @example
  * ```ts
@@ -45,11 +45,10 @@ function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLChara
  * //=> null
  * ```
  */
-export function detectEOL(content: string | Uint8Array): EOLCharacter | null {
-	const contentFmt: string = (typeof content === "string") ? content : new TextDecoder().decode(content);
+export function detectEOL(content: string): EOLCharacter | null {
 	let countCRLF: bigint = 0n;
 	let countLF: bigint = 0n;
-	for (const match of contentFmt.matchAll(regexpEOL())) {
+	for (const match of content.matchAll(regexpEOL())) {
 		const target: string = match[0];
 		if (target === eolCRLF) {
 			countCRLF += 1n;
@@ -63,27 +62,27 @@ export function detectEOL(content: string | Uint8Array): EOLCharacter | null {
  * Determine the End Of Line (EOL) character/sequence in the readable stream.
  * 
  * If no EOL character/sequence is in the readable stream, `null` is returned.
- * @param {ReadableStream<Uint8Array>} stream Readable stream that need to determine.
+ * @param {ReadableStream<string>} stream Readable stream that need to determine.
  * @returns {Promise<EOLCharacter | null>} Determine result.
  */
-export async function detectEOLFromStream(stream: ReadableStream<Uint8Array>): Promise<EOLCharacter | null> {
+export async function detectEOLFromStream(stream: ReadableStream<string>): Promise<EOLCharacter | null> {
 	let countCRLF: bigint = 0n;
 	let countLF: bigint = 0n;
 	let bytePreviousIsCR: boolean = false;
 	for await (const chunk of stream) {
 		for (const byte of chunk) {
 			if (bytePreviousIsCR) {
-				if (byte === 10) {
+				if (byte === "\n") {
 					countCRLF += 1n;
-				} else if (byte === 13) {
+				} else if (byte === "\r") {
 					bytePreviousIsCR = true;
 				} else {
 					bytePreviousIsCR = false;
 				}
 			} else {
-				if (byte === 10) {
+				if (byte === "\n") {
 					countLF += 1n;
-				} else if (byte === 13) {
+				} else if (byte === "\r") {
 					bytePreviousIsCR = true;
 				}
 			}

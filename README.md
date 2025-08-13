@@ -59,10 +59,10 @@ An ECMAScript (JavaScript & TypeScript) module to handle end of line (EOL).
   }
   ```
 - ```ts
-  function detectEOL(content: string | Uint8Array): EOLCharacter | null;
+  function detectEOL(content: string): EOLCharacter | null;
   ```
 - ```ts
-  function detectEOLFromStream(stream: ReadableStream<Uint8Array>): Promise<EOLCharacter | null>;
+  function detectEOLFromStream(stream: ReadableStream<string>): Promise<EOLCharacter | null>;
   ```
 - ```ts
   function normalizeEOL(eol: EOLCharacter, content: string): string;

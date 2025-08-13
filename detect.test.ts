@@ -25,5 +25,5 @@ Deno.test("Stream 1", { permissions: "none" }, async () => {
 		"Deno\r",
 		"\nis not",
 		"\r\nNode"
-	]).pipeThrough(new TextEncoderStream())), eolCRLF);
+	])), eolCRLF);
 });
