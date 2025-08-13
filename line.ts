@@ -1,7 +1,7 @@
 /**
  * Transform the stream to cause each chunk is divided by the End Of Line (EOL) characters/sequence (i.e. each chunk is end with the End Of Line (EOL) characters/sequence).
  */
-export class EOLLineStream extends TransformStream<string, string> {
+export class LineStream extends TransformStream<string, string> {
 	get [Symbol.toStringTag](): string {
 		return "EOLLineStream";
 	}

@@ -1,5 +1,5 @@
 import { deepStrictEqual } from "node:assert";
-import { EOLLineStream } from "./line.ts";
+import { LineStream } from "./line.ts";
 Deno.test("1", { permissions: "none" }, async () => {
 	deepStrictEqual(await Array.fromAsync(ReadableStream.from([
 		"qwertzu",
@@ -8,7 +8,7 @@ Deno.test("1", { permissions: "none" }, async () => {
 		"qwr\r09ei\rqwrjiowqr\r",
 		"\nrewq0987\n\n654321",
 		"\nrewq0987\r\n\r\n654321\r"
-	]).pipeThrough(new EOLLineStream())), [
+	]).pipeThrough(new LineStream())), [
 		"qwertzuiopasd\r\n",
 		"mnbvcxylk\rjhgfds\n",
 		"apoiuzt\rqwr\r09ei\rqwrjiowqr\r\n",
@@ -21,7 +21,7 @@ Deno.test("1", { permissions: "none" }, async () => {
 	]);
 });
 Deno.test("2", { permissions: "none" }, async () => {
-	deepStrictEqual(await Array.fromAsync(ReadableStream.from(["rewq0987\r\n\r\n654321\n"]).pipeThrough(new EOLLineStream())), [
+	deepStrictEqual(await Array.fromAsync(ReadableStream.from(["rewq0987\r\n\r\n654321\n"]).pipeThrough(new LineStream())), [
 		"rewq0987\r\n",
 		"\r\n",
 		"654321\n"
