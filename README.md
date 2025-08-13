@@ -54,6 +54,10 @@ An ECMAScript (JavaScript & TypeScript) module to handle end of line (EOL).
 ## 🧩 APIs
 
 - ```ts
+  class EOLLineStream extends TransformStream<string, string> {
+  }
+  ```
+- ```ts
   class EOLNormalizeStream extends TransformStream<string, string> {
     constructor(eol: EOLCharacter);
   }

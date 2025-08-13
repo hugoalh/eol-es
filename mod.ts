@@ -9,6 +9,7 @@ export {
 	regexpEOL,
 	type EOLCharacter
 } from "./eol.ts";
+export { EOLLineStream } from "./line.ts";
 export {
 	EOLNormalizeStream,
 	normalizeEOL

@@ -5,6 +5,7 @@
 	"exports": {
 		"./detect": "./detect.ts",
 		"./eol": "./eol.ts",
+		"./line": "./line.ts",
 		"./normalize": "./normalize.ts",
 		".": "./mod.ts"
 	},
