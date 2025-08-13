@@ -7,7 +7,6 @@ export {
 	eolCurrent,
 	eolLF,
 	regexpEOL,
-	regExpEOL,
 	type EOLCharacter
 } from "./eol.ts";
 export {

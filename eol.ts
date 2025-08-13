@@ -20,7 +20,3 @@ export const eolCurrent: EOLCharacter = (systemName === "windows") ? eolCRLF : e
 export function regexpEOL(): RegExp {
 	return /\r?\n/g;
 }
-/**
- * @deprecated Incorrect namespace, use {@linkcode regexpEOL} instead.
- */
-export const regExpEOL = regexpEOL;
