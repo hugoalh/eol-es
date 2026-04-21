@@ -2,9 +2,10 @@
 
 [**⚖️** MIT](./LICENSE.md)
 
-[![GitHub: hugoalh/eol-es](https://img.shields.io/github/v/release/hugoalh/eol-es?label=hugoalh/eol-es&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh/eol-es")](https://github.com/hugoalh/eol-es)
-[![JSR: @hugoalh/eol](https://img.shields.io/jsr/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=F7DF1E&logo=jsr&logoColor=000000&style=flat "JSR: @hugoalh/eol")](https://jsr.io/@hugoalh/eol)
-[![NPM: @hugoalh/eol](https://img.shields.io/npm/v/@hugoalh/eol?label=@hugoalh/eol&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/eol")](https://www.npmjs.com/package/@hugoalh/eol)
+🔗
+[GitHub](https://github.com/hugoalh/eol-es)
+[JSR](https://jsr.io/@hugoalh/eol)
+[NPM](https://www.npmjs.com/package/@hugoalh/eol)
 
 An ECMAScript module to handle end of line (EOL).
 
