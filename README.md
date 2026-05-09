@@ -4,8 +4,8 @@
 
 🔗
 [GitHub](https://github.com/hugoalh/eol-es)
-[JSR](https://jsr.io/@hugoalh/eol)
-[NPM](https://www.npmjs.com/package/@hugoalh/eol)
+● [JSR](https://jsr.io/@hugoalh/eol)
+● [NPM](https://www.npmjs.com/package/@hugoalh/eol)
 
 An ECMAScript module to handle end of line (EOL).
 
