@@ -29,6 +29,9 @@ export function normalizeEOL(eol: EOLCharacter, content: string): string {
 	assertEOL(eol);
 	return content.replace(regexpEOL(), eol);
 }
+export {
+	normalizeEOL as normalize
+};
 /**
  * Normalize the End Of Line (EOL) characters/sequence in the stream.
  */
