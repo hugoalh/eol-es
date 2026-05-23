@@ -3,16 +3,10 @@ import { systemName } from "https://raw.githubusercontent.com/hugoalh/runtime-in
  * End Of Line (EOL) character/sequence CRLF, use on the Windows platforms.
  */
 export const eolCRLF = "\r\n" as const;
-export {
-	eolCRLF as CRLF
-};
 /**
  * End Of Line (EOL) character/sequence LF, use on the POSIX/UNIX platforms.
  */
 export const eolLF = "\n" as const;
-export {
-	eolLF as LF
-};
 export type EOLCharacter =
 	| typeof eolCRLF
 	| typeof eolLF;
@@ -20,9 +14,6 @@ export type EOLCharacter =
  * End Of Line (EOL) character/sequence evaluated for the current platform.
  */
 export const eolCurrent: EOLCharacter = (systemName === "windows") ? eolCRLF : eolLF;
-export {
-	eolCurrent as CURRENT
-};
 /**
  * Return regular expression of the End Of Line (EOL) characters/sequence.
  */

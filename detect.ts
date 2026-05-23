@@ -58,9 +58,6 @@ export function detectEOL(content: string): EOLCharacter | null {
 	}
 	return detectEOLResultConclusion(countCRLF, countLF);
 }
-export {
-	detectEOL as detect
-};
 /**
  * Determine the End Of Line (EOL) character/sequence in the readable stream.
  * 
@@ -93,6 +90,3 @@ export async function detectEOLFromStream(stream: ReadableStream<string>): Promi
 	}
 	return detectEOLResultConclusion(countCRLF, countLF);
 }
-export {
-	detectEOLFromStream as detectFromStream
-};
