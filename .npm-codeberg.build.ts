@@ -25,21 +25,21 @@ await invokeDenoNodeJSTransformer({
 			"end-of-line",
 			"eol"
 		],
-		homepage: "https://github.com/hugoalh/eol-es#readme",
+		homepage: "https://codeberg.org/hugoalh/eol-es#readme",
 		bugs: {
-			url: "https://github.com/hugoalh/eol-es/issues"
+			url: "https://codeberg.org/hugoalh/eol-es/issues"
 		},
 		license: "MIT",
 		author: "hugoalh",
 		repository: {
 			type: "git",
-			url: "git+https://github.com/hugoalh/eol-es.git"
+			url: "git+https://codeberg.org/hugoalh/eol-es.git"
 		},
 		private: false,
 		publishConfig: {
 			access: "public"
 		}
 	},
-	outputDirectory: "dist/npm-npm",
+	outputDirectory: "dist/npm-codeberg",
 	outputDirectoryPreEmpty: true
 });
