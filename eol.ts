@@ -18,5 +18,5 @@ export const eolCurrent: EOLCharacter = (systemName === "windows") ? eolCRLF : e
  * Return regular expression of the End Of Line (EOL) characters/sequence.
  */
 export function regexpEOL(): RegExp {
-	return /\r?\n/g;
+	return /\r?\n/gu;
 }
