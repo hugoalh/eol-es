@@ -4,11 +4,11 @@
 	"version": "0.5.1",
 	"license": "MIT",
 	"exports": {
+		".": "./mod.ts",
 		"./detect": "./detect.ts",
 		"./eol": "./eol.ts",
 		"./line": "./line.ts",
-		"./normalize": "./normalize.ts",
-		".": "./mod.ts"
+		"./normalize": "./normalize.ts"
 	},
 	"imports": {
 	},

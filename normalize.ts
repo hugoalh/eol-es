@@ -34,7 +34,7 @@ export function normalizeEOL(eol: EOLCharacter, content: string): string {
  */
 export class EOLNormalizeStream extends TransformStream<string, string> {
 	get [Symbol.toStringTag](): string {
-		return "NormalizeEOLStream";
+		return "EOLNormalizeStream";
 	}
 	#chunkLastEndWithCR: boolean = false;
 	#eol: EOLCharacter;
