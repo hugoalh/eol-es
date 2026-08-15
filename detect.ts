@@ -6,7 +6,31 @@ import {
 	type EOLCharacter
 } from "./eol.ts";
 export type { EOLCharacter } from "./eol.ts";
-function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLCharacter | null {
+interface CountEOLResult {
+	countCRLF: bigint;
+	countLF: bigint;
+}
+function countEOL(content: string): CountEOLResult {
+	let countCRLF: bigint = 0n;
+	let countLF: bigint = 0n;
+	for (const match of content.matchAll(regexpEOL())) {
+		const target: string = match[0];
+		if (target === eolCRLF) {
+			countCRLF += 1n;
+		} else if (target === eolLF) {
+			countLF += 1n;
+		}
+	}
+	return {
+		countCRLF,
+		countLF
+	};
+}
+function detectEOLConclusion(result: CountEOLResult): EOLCharacter | null {
+	const {
+		countCRLF,
+		countLF
+	}: CountEOLResult = result;
 	if (countCRLF === 0n && countLF === 0n) {
 		return null;
 	}
@@ -46,17 +70,7 @@ function detectEOLResultConclusion(countCRLF: bigint, countLF: bigint): EOLChara
  * ```
  */
 export function detectEOL(content: string): EOLCharacter | null {
-	let countCRLF: bigint = 0n;
-	let countLF: bigint = 0n;
-	for (const match of content.matchAll(regexpEOL())) {
-		const target: string = match[0];
-		if (target === eolCRLF) {
-			countCRLF += 1n;
-		} else if (target === eolLF) {
-			countLF += 1n;
-		}
-	}
-	return detectEOLResultConclusion(countCRLF, countLF);
+	return detectEOLConclusion(countEOL(content));
 }
 /**
  * Determine the End Of Line (EOL) character/sequence in the readable stream.
@@ -68,25 +82,21 @@ export function detectEOL(content: string): EOLCharacter | null {
 export async function detectEOLFromStream(stream: ReadableStream<string>): Promise<EOLCharacter | null> {
 	let countCRLF: bigint = 0n;
 	let countLF: bigint = 0n;
-	let bytePreviousIsCR: boolean = false;
+	let lastChunkEndWithCR: boolean = false;
 	for await (const chunk of stream) {
-		for (const byte of chunk) {
-			if (bytePreviousIsCR) {
-				if (byte === "\n") {
-					countCRLF += 1n;
-				} else if (byte === "\r") {
-					bytePreviousIsCR = true;
-				} else {
-					bytePreviousIsCR = false;
-				}
-			} else {
-				if (byte === "\n") {
-					countLF += 1n;
-				} else if (byte === "\r") {
-					bytePreviousIsCR = true;
-				}
-			}
+		let content: string = `${lastChunkEndWithCR ? "\r" : ""}${chunk}`;
+		if (content.endsWith("\r")) {
+			lastChunkEndWithCR = true;
+			content = content.slice(0, -1);
+		} else {
+			lastChunkEndWithCR = false;
 		}
+		const result: CountEOLResult = countEOL(content);
+		countCRLF = result.countCRLF;
+		countLF = result.countLF;
 	}
-	return detectEOLResultConclusion(countCRLF, countLF);
+	return detectEOLConclusion({
+		countCRLF,
+		countLF
+	});
 }
