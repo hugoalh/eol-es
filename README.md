@@ -48,6 +48,7 @@ This does not request any runtime permission.
   ```
 - ```ts
   class LineStream extends TransformStream<string, string> {
+    constructor(options?: LineStreamOptions);
   }
   ```
 - ```ts

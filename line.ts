@@ -1,15 +1,24 @@
+import { regexpEOL } from "./eol.ts";
+export interface LineStreamOptions {
+	/**
+	 * Whether to include End Of Line (EOL) characters/sequence in the result.
+	 * @default {true}
+	 */
+	includeEOL?: boolean;
+}
 /**
  * Transform the stream to cause each chunk is divided by the End Of Line (EOL) characters/sequence (i.e. each chunk is end with the End Of Line (EOL) characters/sequence).
  */
 export class LineStream extends TransformStream<string, string> {
 	get [Symbol.toStringTag](): string {
-		return "EOLLineStream";
+		return "LineStream";
 	}
 	#bin: string = "";
+	#includeEOL: boolean;
 	/**
 	 * Initialize.
 	 */
-	constructor() {
+	constructor(options: LineStreamOptions = {}) {
 		super({
 			transform: (chunk: string, controller: TransformStreamDefaultController<string>): void => {
 				this.#bin += chunk;
@@ -23,6 +32,8 @@ export class LineStream extends TransformStream<string, string> {
 				}
 			},
 		});
+		const { includeEOL = true }: LineStreamOptions = options;
+		this.#includeEOL = includeEOL;
 	}
 	#dispatcher(controller: TransformStreamDefaultController<string>): void {
 		while (true) {
@@ -30,8 +41,9 @@ export class LineStream extends TransformStream<string, string> {
 			if (index === -1) {
 				break;
 			}
-			controller.enqueue(this.#bin.slice(0, index + 1));
+			const content: string = this.#bin.slice(0, index + 1);
 			this.#bin = this.#bin.slice(index + 1);
+			controller.enqueue(this.#includeEOL ? content : content.replaceAll(regexpEOL(), ""));
 		}
 	}
 }
