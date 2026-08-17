@@ -45,14 +45,14 @@ export class EOLNormalizeStream extends TransformStream<string, string> {
 	constructor(eol: EOLCharacter) {
 		super({
 			transform: (chunk: string, controller: TransformStreamDefaultController<string>): void => {
-				const chunkFmt: string = `${this.#chunkLastEndWithCR ? "\r" : ""}${chunk}`.replace(regexpEOL(), this.#eol);
-				if (chunkFmt.endsWith("\r")) {
+				let content: string = `${this.#chunkLastEndWithCR ? "\r" : ""}${chunk}`;
+				if (content.endsWith("\r")) {
 					this.#chunkLastEndWithCR = true;
-					controller.enqueue(chunkFmt.slice(0, chunkFmt.length - 1));
+					content = content.slice(0, -1);
 				} else {
 					this.#chunkLastEndWithCR = false;
-					controller.enqueue(chunkFmt);
 				}
+				controller.enqueue(content.replace(regexpEOL(), this.#eol));
 			},
 			flush: (controller: TransformStreamDefaultController<string>): void => {
 				if (this.#chunkLastEndWithCR) {
