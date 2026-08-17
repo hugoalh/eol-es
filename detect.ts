@@ -82,14 +82,14 @@ export function detectEOL(content: string): EOLCharacter | null {
 export async function detectEOLFromStream(stream: ReadableStream<string>): Promise<EOLCharacter | null> {
 	let countCRLF: bigint = 0n;
 	let countLF: bigint = 0n;
-	let lastChunkEndWithCR: boolean = false;
+	let chunkLastEndWithCR: boolean = false;
 	for await (const chunk of stream) {
-		let content: string = `${lastChunkEndWithCR ? "\r" : ""}${chunk}`;
+		let content: string = `${chunkLastEndWithCR ? "\r" : ""}${chunk}`;
 		if (content.endsWith("\r")) {
-			lastChunkEndWithCR = true;
+			chunkLastEndWithCR = true;
 			content = content.slice(0, -1);
 		} else {
-			lastChunkEndWithCR = false;
+			chunkLastEndWithCR = false;
 		}
 		const result: CountEOLResult = countEOL(content);
 		countCRLF = result.countCRLF;
