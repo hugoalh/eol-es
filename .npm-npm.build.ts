@@ -10,6 +10,12 @@ await transform({
 	],
 	//@ts-ignore Lazy type.
 	entrypointsScript: manifest.exports,
+	mappings: {
+		"jsr:@hugoalh/runtime-info@^0.6.0": {
+			name: "@hugoalh/runtime-info",
+			version: "^0.6.0"
+		}
+	},
 	metadata: {
 		//@ts-ignore Lazy type.
 		name: manifest.name,
